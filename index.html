@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>豆包 · 创意简历</title>
+    <!-- 字体与图标库 (创意个性风) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* 豆包主体色定义 — 温暖橙+奶油白，点缀清新蓝绿 */
+        :root {
+            --doubao-primary: #FF8A4C;      /* 主橙：像豆沙包内馅的暖橘 */
+            --doubao-secondary: #FFB347;    /* 次橙：阳光豆皮 */
+            --doubao-soft: #FFF3E0;          /* 软奶油背景 */
+            --doubao-accent: #5F9EA0;        /* 豆青蓝绿点缀 (呼应豆包叶) */
+            --doubao-dark: #2E3B4E;           /* 深灰蓝，文字主色 */
+            --doubao-light: #FFFFFF;           /* 纯白卡片区 */
+            --doubao-shadow: rgba(255, 138, 76, 0.15); /* 半透明主色阴影 */
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-body: 'Quicksand', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--doubao-soft);
+            font-family: var(--font-body);
+            color: var(--doubao-dark);
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* 个性装饰：漂浮的抽象豆包形状 (半透明圆形 + 点状) */
+        .blob {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle at 30% 30%, var(--doubao-primary), transparent 70%);
+            border-radius: 60% 40% 70% 30% / 40% 60% 30% 70%;
+            opacity: 0.2;
+            z-index: -1;
+            filter: blur(40px);
+            animation: float 18s infinite alternate ease-in-out;
+        }
+
+        .blob-1 { top: -50px; right: -50px; }
+        .blob-2 { bottom: -80px; left: -30px; width: 400px; height: 400px; background: radial-gradient(circle at 70% 70%, var(--doubao-secondary), transparent 70%); animation-duration: 24s; }
+        .blob-3 { top: 40%; left: 10%; width: 200px; height: 200px; background: var(--doubao-accent); opacity: 0.1; filter: blur(50px); }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+            100% { transform: translate(30px, -20px) rotate(10deg) scale(1.1); }
+        }
+
+        /* 主容器 */
+        .container {
+            max-width: 1300px;
+            margin: 2rem auto;
+            padding: 2rem 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 页头 — 创意姓名牌 */
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 4rem;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
+            border-radius: 48px 48px 48px 12px;  /* 不对称圆角更俏皮 */
+            padding: 1.8rem 2.5rem;
+            box-shadow: 0 20px 40px var(--doubao-shadow), 0 4px 12px rgba(0,0,0,0.03);
+            border: 2px solid white;
+        }
+
+        .name-title h1 {
+            font-family: var(--font-display);
+            font-size: 3.2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            color: var(--doubao-dark);
+        }
+
+        .name-title h1 span {
+            color: var(--doubao-primary);
+            background: linear-gradient(145deg, var(--doubao-primary), var(--doubao-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tagline {
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-top: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .tagline i {
+            color: var(--doubao-accent);
+            font-size: 1.6rem;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--doubao-primary), var(--doubao-secondary));
+            border-radius: 40% 60% 30% 70% / 50% 40% 60% 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            box-shadow: 10px 10px 0 var(--doubao-accent);
+            transition: transform 0.2s ease;
+        }
+
+        .avatar:hover {
+            transform: rotate(5deg) scale(1.02);
+        }
+
+        /* 网格卡片区 */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .card {
+            background: var(--doubao-light);
+            border-radius: 30px 10px 30px 10px;  /* 不规则增加趣味 */
+            padding: 2rem 1.8rem;
+            box-shadow: 0 25px 35px -10px var(--doubao-shadow);
+            border: 1px solid rgba(255,255,255,0.6);
+            transition: all 0.25s ease;
+            position: relative;
+            backdrop-filter: blur(4px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 45px -8px var(--doubao-primary);
+            border-color: var(--doubao-primary);
+        }
+
+        /* 装饰小标签 (像豆包上的褶) */
+        .card::before {
+            content: "";
+            position: absolute;
+            top: -8px;
+            right: 20px;
+            width: 40px;
+            height: 20px;
+            background: var(--doubao-primary);
+            border-radius: 40px 40px 0 0;
+            opacity: 0.3;
+            transition: 0.2s;
+        }
+
+        .card:hover::before {
+            opacity: 0.8;
+            height: 25px;
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            color: var(--doubao-primary);
+            margin-bottom: 1.2rem;
+            background: var(--doubao-soft);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px 5px 20px 5px;
+        }
+
+        .card h3 {
+            font-family: var(--font-display);
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+            border-left: 6px solid var(--doubao-secondary);
+            padding-left: 1rem;
+        }
+
+        .skill-list {
+            list-style: none;
+            margin-top: 0.8rem;
+        }
+
+        .skill-list li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 500;
+        }
+
+        .skill-list i {
+            color: var(--doubao-accent);
+            width: 1.4rem;
+            font-size: 1.2rem;
+        }
+
+        .project-item, .job-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .project-title {
+            font-weight: 700;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .project-title a {
+            color: var(--doubao-dark);
+            text-decoration: none;
+            border-bottom: 2px dotted var(--doubao-primary);
+        }
+
+        .project-title a:hover {
+            color: var(--doubao-primary);
+        }
+
+        .project-desc {
+            font-size: 0.95rem;
+            margin: 0.3rem 0 0.5rem 0;
+            opacity: 0.8;
+        }
+
+        .link-badge {
+            display: inline-block;
+            background: var(--doubao-soft);
+            border-radius: 30px;
+            padding: 0.3rem 1rem;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+            margin-top: 0.3rem;
+            border: 1px solid var(--doubao-secondary);
+            transition: 0.1s;
+        }
+
+        .link-badge i {
+            margin-right: 0.2rem;
+            color: var(--doubao-primary);
+        }
+
+        .link-badge a {
+            color: var(--doubao-dark);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .link-badge a:hover {
+            color: var(--doubao-primary);
+        }
+
+        /* 教育 + 联系组合区 */
+        .info-strip {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .info-block {
+            background: rgba(255,255,240,0.5);
+            backdrop-filter: blur(4px);
+            border-radius: 30px;
+            padding: 2rem;
+            border: 1px solid white;
+        }
+
+        .info-block h3 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--doubao-dark);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .contact-item i {
+            width: 2rem;
+            color: var(--doubao-primary);
+            font-size: 1.6rem;
+        }
+
+        .contact-item a {
+            color: var(--doubao-dark);
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            transition: 0.2s;
+        }
+
+        .contact-item a:hover {
+            border-bottom-color: var(--doubao-primary);
+        }
+
+        .edu-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .edu-item h4 {
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .edu-item .meta {
+            display: flex;
+            gap: 1rem;
+            color: var(--doubao-accent);
+            font-weight: 500;
+        }
+
+        /* 可维护的备注区 (后期轻松加链接/材料) */
+        .maintain-note {
+            margin-top: 4rem;
+            background: var(--doubao-light);
+            border-radius: 60px 20px 60px 20px;
+            padding: 1.5rem 2rem;
+            border: 3px dashed var(--doubao-primary);
+            text-align: center;
+            font-family: var(--font-display);
+        }
+
+        .maintain-note p {
+            font-size: 1.2rem;
+        }
+
+        .maintain-note i {
+            color: var(--doubao-primary);
+            margin: 0 0.5rem;
+        }
+
+        .maintain-note .new-link {
+            display: inline-block;
+            background: var(--doubao-soft);
+            padding: 0.5rem 1.5rem;
+            border-radius: 60px;
+            margin: 1rem 0.2rem 0;
+            border: 1px solid var(--doubao-primary);
+            font-weight: 600;
+        }
+
+        .maintain-note .new-link a {
+            color: var(--doubao-dark);
+            text-decoration: none;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 4rem;
+            font-size: 0.95rem;
+            opacity: 0.7;
+            border-top: 2px dotted var(--doubao-primary);
+            padding-top: 2rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 750px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+                gap: 1.5rem;
+            }
+            .name-title h1 {
+                font-size: 2.4rem;
+            }
+            .info-strip {
+                grid-template-columns: 1fr;
+            }
+            .avatar {
+                width: 80px;
+                height: 80px;
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 漂浮背景豆包元素 (纯CSS个性) -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <div class="container">
+        <!-- 头部：姓名 + 角色 + 创意头像 -->
+        <header class="header">
+            <div class="name-title">
+                <h1>林<span>豆包</span></h1>
+                <div class="tagline">
+                    <i class="fa-solid fa-cloud"></i>  创意全栈开发 · 交互叙事 
+                    <i class="fa-solid fa-face-smile" style="color: var(--doubao-primary);"></i>
+                </div>
+                <div style="margin-top: 0.8rem; display: flex; gap: 0.6rem; flex-wrap: wrap;">
+                    <span class="link-badge"><i class="fa-regular fa-file-lines"></i> 可维护简历</span>
+                    <span class="link-badge"><i class="fa-regular fa-compass"></i> 随时更新</span>
+                </div>
+            </div>
+            <div class="avatar">
+                <i class="fa-solid fa-bowl-food"></i> 
+            </div>
+        </header>
+
+        <!-- 技能网格 + 项目经验 (卡片创意布局) -->
+        <div class="grid">
+            <!-- 硬技能卡片 -->
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-code"></i></div>
+                <h3>超能力·栈</h3>
+                <ul class="skill-list">
+                    <li><i class="fa-solid fa-cube"></i> React / Vue / Svelte  (主豆包)</li>
+                    <li><i class="fa-solid fa-paint-brush"></i> 创意CSS· 豆包配色系统</li>
+                    <li><i class="fa-solid fa-node-js"></i> Node.js + Python 后端</li>
+                    <li><i class="fa-solid fa-mobile-screen"></i> 响应式 · 动效设计</li>
+                    <li><i class="fa-solid fa-robot"></i> 豆包AI 工作流整合</li>
+                </ul>
+                <!-- 可维护技能链接 -->
+                <div style="margin-top: 1rem;">
+                    <span class="link-badge"><a href="#"><i class="fa-brands fa-github"></i> 技能代码库</a></span>
+                    <span class="link-badge"><a href="#"><i class="fa-regular fa-note-sticky"></i> 作品笔记</a></span>
+                </div>
+            </div>
+
+            <!-- 项目经历卡片 (带链接) -->
+            <div class="card">
+                <div class="card-icon"><i class="fa-regular fa-folder-open"></i></div>
+                <h3>鲜作·项目</h3>
+                <div class="project-item">
+                    <div class="project-title">
+                        <i class="fa-regular fa-star" style="color: gold;"></i>
+                        <a href="#">豆包创意简历生成器</a>
+                    </div>
+                    <div class="project-desc">一键生成个性网页，配色可调、模块拖拉 — 全栈项目，月活2k+。</div>
+                    <span class="link-badge"><a href="#"><i class="fa-regular fa-eye"></i> 预览</a></span>
+                    <span class="link-badge"><a href="#"><i class="fa-brands fa-github"></i> 源码</a></span>
+                </div>
+                <div class="project-item">
+                    <div class="project-title">
+                        <i class="fa-regular fa-compass"></i>
+                        <a href="#">叙事型作品集 v3</a>
+                    </div>
+                    <div class="project-desc">融合滚动故事与3D，为独立设计师定制，获FWA推荐。</div>
+                    <span class="link-badge"><a href="#"><i class="fa-regular fa-window-maximize"></i> 链接</a></span>
+                </div>
+                <div class="project-item">
+                    <div class="project-title">
+                        <i class="fa-regular fa-calendar"></i>
+                        <a href="#">豆包日报·AI插件</a>
+                    </div>
+                    <div class="project-desc">浏览器扩展，每日创意/配色/语录，用户500+。</div>
+                    <span class="link-badge"><a href="#"><i class="fa-regular fa-link"></i> 商店地址</a></span>
+                </div>
+                <!-- 预留空位，可加新项目 -->
+                <div style="margin-top: 0.8rem; opacity: 0.6;">
+                    <i class="fa-regular fa-plus"></i> 新项目待补充...
+                </div>
+            </div>
+
+            <!-- 工作/经历 卡片 (展示能力背景) -->
+            <div class="card">
+                <div class="card-icon"><i class="fa-regular fa-building"></i></div>
+                <h3>发酵·经历</h3>
+                <div class="job-item">
+                    <strong>创意技术专家</strong> @ 豆包实验室 · 2023-现在
+                    <div style="font-size: 0.9rem;">负责前沿交互原型开发，维护内部创意组件库。</div>
+                </div>
+                <div class="job-item">
+                    <strong>全栈开发 (远程)</strong> @ 独立工作室 · 2021-2023
+                    <div style="font-size: 0.9rem;">为品牌建站、开发动画简历工具，客户包括设计工作室。</div>
+                </div>
+                <div class="job-item">
+                    <strong>教学/工作坊导师</strong> · 创意编程
+                    <div style="font-size: 0.9rem;">指导50+学员产出互动简历，配色创意工作坊。</div>
+                </div>
+                <!-- 链接到详细介绍 (比如领英) -->
+                <div style="margin-top: 1rem;">
+                    <span class="link-badge"><a href="#"><i class="fa-brands fa-linkedin"></i> 领英时间线</a></span>
+                    <span class="link-badge"><a href="#"><i class="fa-regular fa-file-pdf"></i> 完整简历PDF</a></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 教育 + 联系方式 (个性双栏) -->
+        <div class="info-strip">
+            <!-- 教育板块 -->
+            <div class="info-block">
+                <h3><i class="fa-regular fa-graduation-cap" style="color: var(--doubao-primary);"></i> 学·豆包</h3>
+                <div class="edu-item">
+                    <h4>数字媒体 · 创意技术 硕士</h4>
+                    <div class="meta"><span>📖 皇家艺术学院</span><span>2020-2022</span></div>
+                    <div>毕业论文：《可维护简历的叙事界面》</div>
+                </div>
+                <div class="edu-item">
+                    <h4>计算机科学 学士</h4>
+                    <div class="meta"><span>🎓 创意科技大学</span><span>2016-2020</span></div>
+                </div>
+                <!-- 证书/课程链接 -->
+                <div>
+                    <span class="link-badge"><a href="#"><i class="fa-regular fa-certificate"></i> 创意编程证书</a></span>
+                    <span class="link-badge"><a href="#"><i class="fa-regular fa-link"></i> 课程笔记</a></span>
+                </div>
+            </div>
+            <!-- 联系方式 + 社交链接 (可维护) -->
+            <div class="info-block">
+                <h3><i class="fa-regular fa-address-card"></i> 联络·屉</h3>
+                <div class="contact-links">
+                    <div class="contact-item">
+                        <i class="fa-regular fa-envelope"></i>
+                        <a href="mailto:doubao@creative.work">doubao@creative.work</a>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fa-brands fa-github"></i>
+                        <a href="#">github.com/doubao-creative</a>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fa-brands fa-codepen"></i>
+                        <a href="#">codepen.io/doubao</a>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fa-brands fa-x-twitter"></i>
+                        <a href="#">@doubaodotfun</a>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                        <a href="#">作品集在线 (doubao.work)</a>
+                    </div>
+                </div>
+                <!-- 预留更多链接 -->
+                <div style="margin-top: 1.5rem; border-top: 2px dotted var(--doubao-soft); padding-top: 1rem;">
+                    <span class="link-badge"><i class="fa-regular fa-bookmark"></i> 最新博客</span>
+                    <span class="link-badge"><i class="fa-regular fa-image"></i> 设计实验</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 可维护区域 —— 方便后期补充新材料、链接（按照需求特别设计） -->
+        <div class="maintain-note">
+            <p><i class="fa-regular fa-pen-to-square"></i> <strong>后期维护补给站</strong> <i class="fa-regular fa-pen-to-square"></i></p>
+            <p>这里是预留的“可维护材料区” —— 随时加链接/作品/文档</p>
+            <div>
+                <span class="new-link"><a href="#"><i class="fa-regular fa-file-lines"></i> 新·案例研究 (2025.03)</a></span>
+                <span class="new-link"><a href="#"><i class="fa-regular fa-link"></i> 豆包配色指南</a></span>
+                <span class="new-link"><a href="#"><i class="fa-regular fa-calendar-plus"></i> 近期讲座</a></span>
+                <span class="new-link"><a href="#"><i class="fa-regular fa-clipboard"></i> 推荐工具清单</a></span>
+            </div>
+            <div style="margin-top: 1.2rem; background: var(--doubao-soft); border-radius: 60px; padding: 0.8rem;">
+                📌 维护提示：直接编辑HTML文字、追加链接卡片即可。配色使用CSS变量（--doubao-*）一键换色。
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <div class="footer">
+            <i class="fa-regular fa-copyright"></i> 可维护创意简历 · 豆包主题 · 随时烘烤新鲜
+        </div>
+    </div>
+
+    <!-- 简单注释：所有配色、链接、模块均可轻松增删，符合后期维护需求 -->
+</body>
+</html>
